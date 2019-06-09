@@ -1,5 +1,3 @@
-
-
 import { APP_TYPES } from '../action_types';
 
 const defaultState = {
