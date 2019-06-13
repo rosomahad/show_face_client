@@ -4,7 +4,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-import Header from '../../components/app/Header';
+import Header from '../../components/Main/Header';
 import { videosApi } from '../../api';
 import Connection from '../../lib/webrtc';
 

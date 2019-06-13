@@ -5,8 +5,8 @@ import ConferencePage from '../pages/Conference';
 
 
 import IntroductionPage from '../pages/Introduction';
-import RegistrationPage from '../pages/Registration';
-import LoginPage from '../pages/Login';
+import SignUpPage from '../pages/SignUp';
+import SignInPage from '../pages/SignIn';
 
 
 interface IRoute {
@@ -45,12 +45,12 @@ const publicRouters: IRoute[] = [
         component: IntroductionPage,
     },
     {
-        path: '/registration',
-        component: RegistrationPage,
+        path: '/signin',
+        component: SignInPage,
     },
     {
-        path: '/login',
-        component: LoginPage,
+        path: '/signup',
+        component: SignUpPage,
     },
 ]
 
