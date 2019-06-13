@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { publicRouters } from './routers';
 import NotFoundPage from '../pages/NotFound';
@@ -25,7 +25,6 @@ export default () => {
         <Grid container={true} direction="column" className={classes.root}>
             <PublicHeader />
 
-
             <Switch>
                 {
                     publicRouters.map(({ path, component, exact }) => (
@@ -38,16 +37,12 @@ export default () => {
                     ))
                 }
 
-                <Route
-                    component={NotFoundPage}
-                    exact={true}
-                    key={'not_found'}
-                    to={'*'}
+                <Redirect
+                    from="*"
+                    to="/"
                 />
 
             </Switch>
-
-
             <Footer />
         </Grid>
     )

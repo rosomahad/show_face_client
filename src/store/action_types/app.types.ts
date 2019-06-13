@@ -1,3 +1,6 @@
 export default {
-
+    SET_USER: 'SET_USER',
+    SET_TOKEN: 'SET_TOKEN',
+    LOGOUT: 'LOGOUT',
+    SET_LOADING_STATUS: 'LOADING'
 }

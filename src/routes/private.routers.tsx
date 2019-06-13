@@ -6,8 +6,8 @@ import NotFoundPage from '../pages/NotFound';
 
 export default () => (
     <Switch>
-        <Redirect from="/login" to="/" />
-        <Redirect from="/registration" to="/" />
+        <Redirect from="/signin" to="/" />
+        <Redirect from="/signup" to="/" />
 
         {
             privateRouters.map(({ path, component, exact }) => (

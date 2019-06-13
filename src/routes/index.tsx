@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import PublicRouters from './public.routers';
 import PrivateRouters from './private.routers';
-import { isAuthorized } from './access.middlware';
+import Loading from '../components/Loading';
+import { connect } from 'react-redux';
+import { appActions } from '../store/actions';
 
-export default () => {
+const App = (props: any) => {
+
+    useEffect(() => {
+        props.authCheck();
+    }, [props.count]);
+
+    if (props.isLoading) {
+        return <Loading />
+    }
+
     return (
         <Router basename={'/'}>
             {
-                isAuthorized() ?
+                props.isAuth ?
                     <PrivateRouters />
                     :
                     <PublicRouters />
             }
         </Router>
     )
-}
+};
+
+export default connect(({ appStore }: any) => ({
+    isAuth: appStore.isAuth,
+    isLoading: appStore.isLoading
+}), { authCheck: appActions.authCheck })(App);
+

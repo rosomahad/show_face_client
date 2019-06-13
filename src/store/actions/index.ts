@@ -1,4 +1,4 @@
-import * as appActions from './app.actions';
+import appActions from './app.actions';
 
 export {
     appActions,

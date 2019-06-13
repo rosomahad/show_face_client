@@ -8,18 +8,14 @@ interface IRequestData {
     method?: TReqmethods
 }
 
-function getToken() {
-    const token = window.localStorage.getItem("token");
-    return token ? JSON.parse(token) : '';
-}
-
 function getHeaders() {
-    return { Authorization: `Bearer ${getToken()}` };
+    return {};
 }
 
 const request = async ({ url, data, method = 'post' }: IRequestData) => {
     try {
         const response: any = await axios({
+            withCredentials: true,
             headers: getHeaders(),
             url: `http://localhost:8000/api${url}`,
             method,

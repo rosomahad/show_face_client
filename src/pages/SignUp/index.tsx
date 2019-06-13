@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -12,10 +12,37 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 
 import useStyles from './signup.style';
+import { authApi } from '../../api';
 
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-export default function SignUp() {
+const SignUp = (props: RouteComponentProps) => {
     const classes = useStyles();
+
+    const [credantials, setCredantials] = useState();
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        if (credantials.password !== credantials.repassword) return;
+
+        try {
+            const result = await authApi.signUp(credantials);
+
+            if (result.id) {
+                props.history.push('/signin')
+            }
+        } catch (err) {
+            // TODO: 
+        }
+    }
+
+    const handleChange = (e: any) => {
+        setCredantials({
+            ...credantials,
+            [e.target.id]: e.target.value
+        })
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -29,47 +56,55 @@ export default function SignUp() {
                     Sign up
                 </Typography>
 
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={12}>
                             <TextField
+                                onChange={handleChange}
                                 autoComplete="name"
-                                name="firstName"
+                                name="fullName"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="firstName"
-                                label="First Name"
+                                id="fullName"
+                                label="Full Name"
                                 autoFocus
                             />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={12}>
                             <TextField
+                                onChange={handleChange}
+                                autoComplete="name"
+                                name="nickName"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
+                                id="nickName"
+                                label="Nickname"
+                                autoFocus
                             />
                         </Grid>
 
+
+
                         <Grid item xs={12}>
                             <TextField
+                                onChange={handleChange}
                                 variant="outlined"
+                                type='email'
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
                                 name="email"
+                                label="Email Address"
                                 autoComplete="email"
                             />
                         </Grid>
 
                         <Grid item xs={12}>
                             <TextField
+                                onChange={handleChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -78,6 +113,19 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                onChange={handleChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="repassword"
+                                label="Repeat Password"
+                                type="password"
+                                id="repassword"
                             />
                         </Grid>
 
@@ -95,13 +143,14 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+
                     >
                         Sign Up
                     </Button>
 
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
@@ -112,3 +161,5 @@ export default function SignUp() {
         </Container>
     );
 }
+
+export default withRouter(SignUp);

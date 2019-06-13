@@ -1,10 +1,9 @@
 import { applyMiddleware, createStore } from 'redux';
-import reducer from './reducers';
-
-// DEVTOOLS
+import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-
 import { createLogger } from 'redux-logger';
+
+import rootReducer from './reducers';
 
 const logger = createLogger({
     collapsed: true,
@@ -14,10 +13,9 @@ const logger = createLogger({
 
 const getMiddleware = () => {
     if (process.env.NODE_ENV === 'production') {
-        return {};
+        return applyMiddleware(thunk);
     } else {
-        // Enable additional logging in non-production environments.
-        return applyMiddleware(logger);
+        return applyMiddleware(thunk, logger);
     }
 };
 
@@ -25,4 +23,4 @@ const middlwere: any = composeWithDevTools(
     getMiddleware(),
 );
 
-export const store = createStore(reducer, {}, middlwere);
+export const store = createStore(rootReducer, middlwere);
