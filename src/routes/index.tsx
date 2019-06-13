@@ -1,12 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import HomePage from '../pages/home';
+import PublicRouters from './public.routers';
+import PrivateRouters from './private.routers';
+import { isAuthorized } from './access.middlware';
 
-export default () => (
-    <Router basename={'/'}>
-        <Switch>
-            <Route exact={true} path={'/'} component={HomePage} />
-        </Switch>
-    </Router>
-)
+export default () => {
+    return (
+        <Router basename={'/'}>
+            {
+                isAuthorized() ?
+                    <PrivateRouters />
+                    :
+                    <PublicRouters />
+            }
+        </Router>
+    )
+}

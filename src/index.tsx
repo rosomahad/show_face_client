@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import Routes from './routes';
 import { store } from './store';
+import ws from './lib/sockets';
 
 const render = (Component: any) => {
   ReactDOM.render(
