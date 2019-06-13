@@ -36,12 +36,6 @@ export default () => {
                         />
                     ))
                 }
-
-                <Redirect
-                    from="*"
-                    to="/"
-                />
-
             </Switch>
             <Footer />
         </Grid>

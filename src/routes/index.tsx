@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { appActions } from '../store/actions';
 
 const App = (props: any) => {
-
     useEffect(() => {
         props.authCheck();
     }, [props.count]);

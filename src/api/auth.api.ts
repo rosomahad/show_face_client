@@ -1,4 +1,3 @@
-import { isAuthorized } from './../routes/access.middlware';
 import { request } from './request';
 
 interface signUpCredantials {

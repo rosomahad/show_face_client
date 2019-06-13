@@ -3,28 +3,32 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { privateRouters } from './routers';
 import NotFoundPage from '../pages/NotFound';
+import MainContainer from '../components/Main/MainContainer';
 
 export default () => (
-    <Switch>
-        <Redirect from="/signin" to="/" />
-        <Redirect from="/signup" to="/" />
+    <MainContainer>
+        <Switch>
 
-        {
-            privateRouters.map(({ path, component, exact }) => (
-                <Route
-                    component={component}
-                    exact={exact}
-                    path={path}
-                    key={path}
-                />
-            ))
-        }
+            {
+                privateRouters.map(({ path, component, exact }) => (
+                    <Route
+                        component={component}
+                        exact={exact}
+                        path={path}
+                        key={path}
+                    />
+                ))
+            }
 
-        <Route
-            component={NotFoundPage}
-            exact={true}
-            key={'not_found'}
-            to={'*'}
-        />
-    </Switch>
+            <Redirect from="/signin" to="/" />
+            <Redirect from="/signup" to="/" />
+
+            <Route
+                component={NotFoundPage}
+                exact={true}
+                key={'not_found'}
+                path={'*'}
+            />
+        </Switch>
+    </MainContainer>
 )

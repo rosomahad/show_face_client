@@ -1,4 +1,3 @@
-import { isAuthorized } from './../../routes/access.middlware';
 import { APP_TYPES } from '../action_types';
 
 const defaultState = {

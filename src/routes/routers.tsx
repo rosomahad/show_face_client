@@ -1,5 +1,6 @@
 import UserPage from '../pages/User';
 import HomePage from '../pages/Home';
+import Channel from '../pages/Channel';
 import AccountPage from '../pages/Account';
 import ConferencePage from '../pages/Conference';
 
@@ -35,6 +36,11 @@ const privateRouters: IRoute[] = [
     {
         path: '/user/:id',
         component: UserPage,
+    },
+
+    {
+        path: '/channel/:id',
+        component: Channel,
     },
 ]
 
