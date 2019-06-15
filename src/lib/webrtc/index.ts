@@ -1,4 +1,5 @@
-import { ninvoke } from "q";
+import { socket } from '../../lib/sockets';
+import socketActions from '../../lib/sockets/socketActions';
 
 const w: any = window;
 
@@ -35,42 +36,72 @@ const RTCutils = {
 }
 
 class Connection {
-    room: any = null;
-    userId: any = null;
-    channel: any = null;
-    caller: any = null;
-    localUserMedia: any = null;
+    constructor({ userId, channelId, onClientConnect, onCandidateConnect }: any) {
+        this.userId = userId;
+        this.channelId = channelId
+        this.onCandidateConnect = onCandidateConnect;
+        this.onClientConnect = onClientConnect;
 
-    initCaller() {
+
+    }
+
+    channelId: any = null;
+    userId: any = null;
+
+    caller: any = null;
+    channel: any = null;
+    localUserMedia: any = null;
+    localRemoteUserMedia: any = null;
+    iceCandidate = null
+
+    onCandidateConnect: any = null
+    onClientConnect: any = null
+
+    initCaller = () => {
         //Initializing a peer connection
         this.caller = new w.RTCPeerConnection();
         //Listen for ICE Candidates and send them to remote peers
-        this.caller.onicecandidate = function (evt: any) {
+        this.caller.onicecandidate = (evt: any) => {
             if (!evt.candidate) return;
-            console.log("onicecandidate called");
-            // onIceCandidate(caller, evt);
+
+            socket.emit(socketActions.channel_client_candidate, {
+                "candidate": evt.candidate,
+            });
         };
 
         //onaddstream handler to receive remote feed and show in remoteview video element
-        this.caller.onaddstream = function (evt: any) {
-            console.log("onaddstream called");
-            if (window.URL) {
-                //   document.getElementById("remoteview").src = window.URL.createObjectURL(
-                // evt.stream
-                //   );
-            } else {
-                //   document.getElementById("remoteview").src = evt.stream;
-            }
+        // this.caller.ontrack = (evt: any) => {
+        //     console.log("onCandidateConnect called");
+        //     this.onCandidateConnect(evt.stream)
+        // }; 
+
+        this.caller.onaddstream = (evt: any) => {
+            console.log("onCandidateConnect called", evt);
+            this.onCandidateConnect(evt.stream)
         };
     }
 
-    onIceCandidate(peer: any, evt: any) {
-        // if (evt.candidate) {
-        //     channel.trigger("client-candidate", {
-        //         "candidate": evt.candidate,
-        //         "room": room
-        //     });
-        // }
+
+    async callUser() {
+        try {
+            const stream = await this.getCam();
+
+            this.caller.addStream(stream);
+
+            this.localUserMedia = stream;
+
+            this.onClientConnect(stream)
+
+            const desc = await this.caller.createOffer();
+
+            this.caller.setLocalDescription(new RTCSessionDescription(desc));
+
+            console.log('OFFER SENDED', desc)
+            socket.emit(socketActions.channel_client_sdp, { sdp: desc })
+
+        } catch (err) {
+            console.log("an error occured", err);
+        }
     }
 
     getCam() {
@@ -81,132 +112,58 @@ class Connection {
         });
     }
 
-    async callUser(user: any) {
+    onSDPconnect = async (msg: any) => {
+        console.log("channel_client_sdp", msg);
+
         try {
             const stream = await this.getCam();
 
-            // if (window.URL) {
-            //   document.getElementById("selfview").src = window.URL.createObjectURL(
-            //     stream
-            //   );
-            // } else {
-            //   document.getElementById("selfview").src = stream;
-            // }
+            this.onClientConnect(stream)
 
             this.caller.addStream(stream);
 
-            this.localUserMedia = stream;
+            await this.caller.setRemoteDescription(new RTCSessionDescription(msg.sdp));
 
-            const desc = await this.caller.createOffer();
+            const sdp = await this.caller.createAnswer()
 
-            const sessionDescription = new RTCSessionDescription(desc);
+            await this.caller.setLocalDescription(new RTCSessionDescription(sdp));
 
-            this.caller.setLocalDescription(sessionDescription);
+            socket.emit(socketActions.channel_client_answer, { sdp: sdp })
 
-            // channel.trigger("client-sdp", {
-            //     sdp: desc,
-            //     room: user,
-            //     from: id
-            // });
-
-            this.room = user;
+        } catch (error) {
+            console.log('an error occured', error);
         }
 
-        catch (err) {
-            console.log("an error occured", err);
-        }
     }
 
-    onReject(answer: any) {
-        if (answer.room == this.room) {
-            console.log("Call declined");
-            alert("call to " + answer.rejected + "was politely declined");
-            this.endCall();
-        }
+    onClientCandidate = (msg: any) => {
+        console.log('channel_client_candidate', msg)
+
+        this.caller.addIceCandidate(new RTCIceCandidate(msg.candidate));
     }
 
-    onAnswer(answer: any) {
-        if (answer.room == this.room) {
-            console.log("answer received");
-            this.caller.setRemoteDescription(new RTCSessionDescription(answer.sdp));
-        }
-    }
-    endCall() {
-        this.room = undefined;
+    onClientAnswer = ({ sdp, userId, channelId }: any) => {
 
-        this.caller.close();
-
-        for (let track of this.localUserMedia.getTracks()) {
-            track.stop();
-        }
-
-        this.initCaller();
+        console.log("channel_client_answer", sdp, { userId, channelId });
+        this.caller.setRemoteDescription(new RTCSessionDescription(sdp));
     }
 
-    async onSDPconnect(msg: any) {
-        if (msg.room == this.userId) {
+    init = () => {
+        socket.on(socketActions.channel_client_sdp, this.onSDPconnect);
+        socket.on(socketActions.channel_client_answer, this.onClientAnswer);
+        socket.on(socketActions.channel_client_candidate, this.onClientCandidate);
 
-            var answer = window.confirm("You have a call from: " + msg.from + "Would you like to answer?");
-
-            if (!answer) {
-                return this.channel.trigger("client-reject", { "room": msg.room, "rejected": this.userId });
-            }
-
-            this.room = msg.room;
-
-
-            try {
-                const stream = await this.getCam();
-
-                this.localUserMedia = stream;
-
-                // if (window.URL) {
-                //     document.getElementById("selfview").src = window.URL.createObjectURL(stream);
-                // } else {
-                //     document.getElementById("selfview").src = stream;
-                // }
-
-                this.caller.addStream(stream);
-
-                var sessionDesc = new RTCSessionDescription(msg.sdp);
-
-                this.caller.setRemoteDescription(sessionDesc);
-
-                const sdp = await this.caller.createAnswer()
-
-                const RTCSessionDesc = new RTCSessionDescription(sdp);
-
-                this.caller.setLocalDescription(RTCSessionDesc);
-
-                // this.channel.trigger("client-answer", {
-                //     "sdp": sdp,
-                //     "room": room
-                // });
-
-
-            } catch (error) {
-                console.log('an error occured', error);
-            }
-        }
-    }
-
-    init() {
         RTCutils.getRTCPeerConnection();
         RTCutils.getRTCSessionDescription();
         RTCutils.getRTCIceCandidate();
 
         this.initCaller();
+
+    }
+
+    createConnect = () => {
+        this.callUser();
     }
 }
 
-export default new Connection();
-
-const data = {
-    usersOnline: '', // the count of users online
-    id: '', // the ID of the current user
-    users: '',//  an array that holds the details of all users
-    sessionDesc: '',//  the SDP offer being sent. SDP refers to the session description of the peer connection provided by WebRTC. (You would see more of this as we move on)
-    room: '', // the identifier of the current people having a call.
-    caller: '', // the peer connection object of the person calling/receiving a call.
-    localUserMedia: '',// a reference to the local audio and video stream being transmitted from the caller.
-}
+export default Connection;

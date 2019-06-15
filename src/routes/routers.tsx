@@ -29,18 +29,18 @@ const privateRouters: IRoute[] = [
     },
 
     {
-        path: '/conference/:id',
-        component: ConferencePage,
-    },
-
-    {
-        path: '/user/:id',
+        path: '/user/:userId',
         component: UserPage,
     },
 
     {
-        path: '/channel/:id',
+        path: '/channels/:channelId',
         component: Channel,
+    },
+
+    {
+        path: '/conference/:conferenceId',
+        component: ConferencePage,
     },
 ]
 

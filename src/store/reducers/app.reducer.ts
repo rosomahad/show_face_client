@@ -9,11 +9,15 @@ const defaultState = {
 
 export default (state = defaultState, action: { type: string, payload: any }) => {
     switch (action.type) {
-        case APP_TYPES.SET_USER: {
+        case APP_TYPES.SIGN_IN: {
+            sessionStorage.setItem('token', action.payload.token)
+
             return {
                 ...state,
-                user: action.payload,
-                isAuth: true,
+                user: action.payload.user,
+                token: action.payload.token,
+                isAuth: action.payload.isAuth,
+                isLoading: false
             }
         }
 

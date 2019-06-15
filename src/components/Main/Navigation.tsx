@@ -16,13 +16,15 @@ import MailIcon from '@material-ui/icons/Mail';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 
+import { connect } from 'react-redux';
+
 import useStyles from './styles/aside.style';
 
-export default function MiniDrawer() {
+
+function Navigation(props: any) {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -56,7 +58,7 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Mini variant drawer
+                        {props.userName}
                     </Typography>
                     <Avatar
                         alt="Remy"
@@ -108,3 +110,8 @@ export default function MiniDrawer() {
         </>
     );
 }
+
+
+export default connect(({ appStore }: any) => {
+    return ({ userName: appStore.user && appStore.user.fullName })
+})(Navigation);

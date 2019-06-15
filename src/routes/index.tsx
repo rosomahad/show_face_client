@@ -7,19 +7,19 @@ import Loading from '../components/Loading';
 import { connect } from 'react-redux';
 import { appActions } from '../store/actions';
 
-const App = (props: any) => {
+const App = ({ isAuth, isLoading, authCheck }: any) => {
     useEffect(() => {
-        props.authCheck();
-    }, [props.count]);
+        authCheck();
+    }, [isAuth]);
 
-    if (props.isLoading) {
+    if (isLoading) {
         return <Loading />
     }
 
     return (
         <Router basename={'/'}>
             {
-                props.isAuth ?
+                isAuth ?
                     <PrivateRouters />
                     :
                     <PublicRouters />

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import { publicRouters } from './routers';
-import NotFoundPage from '../pages/NotFound';
 import PublicHeader from '../components/Main/PublicHeader';
 import Footer from '../components/Main/Footer';
 import Grid from '@material-ui/core/Grid';

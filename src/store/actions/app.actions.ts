@@ -3,13 +3,6 @@ import { authApi } from '../../api';
 
 
 export default {
-    setUser: (user: any) => {
-        return {
-            type: APP_TYPES.SET_USER,
-            payload: user
-        };
-    },
-
     authCheck: () => {
         return async (dispatcher: any) => {
             try {
@@ -18,25 +11,32 @@ export default {
                     payload: true
                 });
 
-                const result = await authApi.isAuthorized();
-
+                const result = await authApi.isAuthorized(); 
                 dispatcher({
-                    type: APP_TYPES.SET_LOADING_STATUS,
-                    payload: false
-                });
-
-                dispatcher({
-                    type: APP_TYPES.SET_USER,
+                    type: APP_TYPES.SIGN_IN,
                     payload: {
                         user: result.user,
+                        token: result.token,
                         isAuth: result.isAuth
                     }
                 });
+
             } catch (err) {
                 dispatcher({
                     type: APP_TYPES.SET_LOADING_STATUS,
                     payload: false
                 });
+            }
+        }
+    },
+
+    signIn: ({ user, token, isAuth }: any) => {
+        return {
+            type: APP_TYPES.SIGN_IN,
+            payload: {
+                user,
+                token,
+                isAuth
             }
         }
     },

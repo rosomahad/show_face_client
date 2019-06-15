@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -21,7 +18,7 @@ import { appActions } from '../../store/actions';
 import { authApi } from '../../api';
 
 interface ISignInProps extends RouteComponentProps {
-    setUser: (user: any) => void
+    signIn: (options: { user: any, token: string, isAuth: boolean }) => void
 }
 
 const SignIn = (props: ISignInProps) => {
@@ -35,13 +32,13 @@ const SignIn = (props: ISignInProps) => {
         try {
             const result = await authApi.signIn(credantials);
 
-            props.setUser(result.user)
+            props.signIn({ user: result.user, token: result.token, isAuth: result.isAuth })
 
             if (result.id) {
                 props.history.push('/')
             }
         } catch (err) {
-            console.log(err);
+            alert(JSON.stringify(err));
             // TODO: 
         }
     }
@@ -122,7 +119,7 @@ const SignIn = (props: ISignInProps) => {
     );
 }
 
-const mapDispatchToProps = { setUser: appActions.setUser }
+const mapDispatchToProps = { signIn: appActions.signIn }
 
 export default compose(withRouter, connect(
     null,
