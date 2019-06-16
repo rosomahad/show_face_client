@@ -71,12 +71,12 @@ class Connection {
 
         //onaddstream handler to receive remote feed and show in remoteview video element
         // this.caller.ontrack = (evt: any) => {
-        //     console.log("onCandidateConnect called");
-        //     this.onCandidateConnect(evt.stream)
-        // }; 
+        //     console.log("ontrack called", evt);
+        //     this.onCandidateConnect(evt.streams[0])
+        // };
 
         this.caller.onaddstream = (evt: any) => {
-            console.log("onCandidateConnect called", evt);
+            console.log("onaddstream     called", evt);
             this.onCandidateConnect(evt.stream)
         };
     }
@@ -106,6 +106,7 @@ class Connection {
 
     getCam() {
         //Get local audio/video feed and show it in selfview video element
+        console.log(navigator);
         return navigator.mediaDevices.getUserMedia({
             video: true,
             audio: true

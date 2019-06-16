@@ -1,3 +1,3 @@
 export default {
-    socketServer: 'http://localhost:8000',
+    socketServer: 'http://192.168.0.109:8000',
 };

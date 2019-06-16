@@ -2,6 +2,7 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -13,6 +14,8 @@ import socketActions from '../../lib/sockets/socketActions';
 
 import styles from './channel.style';
 
+import MessagesList from '../../components/MessagesList';
+import ChatInput from '../../components/ChatInput';
 
 const defaultVideos: string[] = [];
 
@@ -91,7 +94,7 @@ class Channel extends React.Component<any, any> {
         }
 
     };
-
+    onMessage = () => ''
     render() {
 
         const classes = this.props.classes;
@@ -100,7 +103,7 @@ class Channel extends React.Component<any, any> {
             <Grid item xs={12}>
                 <Grid container justify="center" spacing={6}>
 
-                    <Grid xs={9} item>
+                    <Grid xs={8} item>
 
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
@@ -119,7 +122,7 @@ class Channel extends React.Component<any, any> {
                             </Grid>
 
                             <Grid item xs={6}>
-                            Remote
+                                Remote
                                 <video
                                     key="remoteview"
                                     autoPlay={true}
@@ -136,7 +139,7 @@ class Channel extends React.Component<any, any> {
                         </Grid>
                     </Grid>
 
-                    <Grid xs={3} item>
+                    <Grid xs={4} item>
 
                         <div>
                             <Button
@@ -152,7 +155,13 @@ class Channel extends React.Component<any, any> {
                                 className={classes.button}
                                 onClick={this.handleDisconnect}
                             >disconnect</Button>
+
                         </div>
+
+                        <Paper elevation={2} style={{ padding: 20 }}>
+                            <MessagesList messages={[]} />
+                            <ChatInput onSubmit={this.onMessage} />
+                        </Paper>
 
                     </Grid>
                 </Grid>

@@ -1,8 +1,18 @@
 import { request } from './request';
 
 export default {
-    create: (values: any) => {
+    create: async (values: any) => {
+        try {
+            const response = await request({
+                url: '/v1/channels',
+                method: 'post',
+                data: values
+            })
 
+            return response;
+        } catch (err) {
+            // TODO:
+        }
     },
 
     updateOne: (id: number, values: any) => {
@@ -17,7 +27,16 @@ export default {
 
     },
 
-    findByQuery: (query: any) => {
+    findByQuery: async (query: any = {}) => {
+        try {
+            const response = await request({
+                url: '/v1/channels',
+                method: 'get'
+            })
 
+            return response;
+        } catch (err) {
+            // TODO:
+        }
     },
 }

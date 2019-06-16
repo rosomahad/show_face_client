@@ -4,7 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
+import Link from '../../components/Link';
+
 const useStyles = makeStyles(theme => ({
     '@global': {
         body: {
@@ -54,8 +55,7 @@ export default function ButtonAppBar() {
                 <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                     <Link
                         color="textPrimary"
-                        href="/"
-
+                        to="/"
                     >Show Face</Link>
 
                 </Typography>
@@ -64,17 +64,22 @@ export default function ButtonAppBar() {
                     <Link
                         variant="button"
                         color="textPrimary"
-                        href="/"
+                        to="/"
                         className={classes.link}
-                    > Home </Link>
+                    >Home</Link>
                 </nav>
 
-                <Button href="/signin" color="primary" variant="outlined" className={classes.link}>
-                    Sign In
-                    </Button> <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
-                    Sign Up
+                <Link to="signin">
+                    <Button color="primary" variant="outlined" className={classes.link}>
+                        Sign In
                     </Button>
+                </Link>
 
+                <Link to="signup">
+                    <Button color="primary" variant="outlined" className={classes.link}>
+                        Sign up
+                    </Button>
+                </Link>
             </Toolbar>
         </AppBar>
     );

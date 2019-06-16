@@ -17,7 +17,7 @@ const request = async ({ url, data, method = 'post' }: IRequestData) => {
         const response: any = await axios({
             withCredentials: true,
             headers: getHeaders(),
-            url: `http://localhost:8000/api${url}`,
+            url: `/api${url}`,
             method,
             data,
         });

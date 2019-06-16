@@ -1,9 +1,12 @@
 import UserPage from '../pages/User';
 import HomePage from '../pages/Home';
-import Channel from '../pages/Channel';
 import AccountPage from '../pages/Account';
 import ConferencePage from '../pages/Conference';
 
+
+import Channel from '../pages/Channel';
+import Channels from '../pages/Channels';
+import ChannelCreate from '../pages/ChannelCreate';
 
 import IntroductionPage from '../pages/Introduction';
 import SignUpPage from '../pages/SignUp';
@@ -31,6 +34,18 @@ const privateRouters: IRoute[] = [
     {
         path: '/user/:userId',
         component: UserPage,
+    },
+
+    {
+        path: '/channels',
+        exact: true,
+        component: Channels,
+    },
+
+    {
+        path: '/channels/create',
+        exact: true,
+        component: ChannelCreate,
     },
 
     {

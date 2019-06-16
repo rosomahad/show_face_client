@@ -24,6 +24,12 @@ import { connect } from 'react-redux';
 import useStyles from './styles/aside.style';
 
 
+const Links = [{
+    to: '/channels',
+    Icon: InboxIcon,
+    label: 'Channels'
+}]
+
 function Navigation(props: any) {
     const classes = useStyles();
     const theme = useTheme();
@@ -89,23 +95,16 @@ function Navigation(props: any) {
                     </IconButton>
                 </div>
                 <Divider />
+
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
+                    {Links.map(({ label, to, Icon }, index) => (
+                        <ListItem button key={to}>
+                            <ListItemIcon>{<Icon />}</ListItemIcon>
+                            <ListItemText primary={label} />
                         </ListItem>
                     ))}
                 </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+
             </Drawer>
         </>
     );
