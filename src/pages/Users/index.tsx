@@ -15,23 +15,22 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './users_page.style';
 
 
-import { channelsApi } from '../../api';
+import { usersApi } from '../../api';
+import UsersList from '../../components/UsersList';
 
 import Link from '../../components/Link';
 
 class UsersPage extends React.Component<any, any> {
     state = {
-        channels: []
+        users: []
     }
 
     async componentDidMount() {
         try {
-            const { data } = await channelsApi.findByQuery();
-
-            const { rows, count } = data.data;
+            const { rows, count } = await usersApi.findByQuery();
 
             this.setState({
-                channels: rows,
+                users: rows,
             })
         } catch (err) {
             // TODO: 
@@ -50,14 +49,10 @@ class UsersPage extends React.Component<any, any> {
                         <div className={classes.paper_header}>
                             <Typography variant="h5">Users</Typography>
 
-                            <Link to="/channels/create">
-                                <IconButton size="medium" className={classes.link}>
-                                    <CreateButton />
-                                </IconButton>
-                            </Link>
                         </div>
                         <Divider />
 
+                        <UsersList users={this.state.users} />
                     </Paper>
 
                 </Grid>

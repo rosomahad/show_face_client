@@ -70,13 +70,13 @@ export default function ButtonAppBar() {
                 </nav>
 
                 <Link to="signin">
-                    <Button color="primary" variant="outlined" className={classes.link}>
+                    <Button color="secondary" variant="outlined" className={classes.link}>
                         Sign In
                     </Button>
                 </Link>
 
                 <Link to="signup">
-                    <Button color="primary" variant="outlined" className={classes.link}>
+                    <Button color="secondary" variant="outlined" className={classes.link}>
                         Sign up
                     </Button>
                 </Link>

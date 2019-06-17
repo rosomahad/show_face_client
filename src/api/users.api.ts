@@ -41,14 +41,14 @@ export default {
         }
     },
 
-    getAllByQuery: async (query?: any) => {
+    findByQuery: async (query?: any) => {
         try {
             const response = await request({ method: 'get', url: '/v1/users' })
 
             const responseData = response.data;
 
             const users = responseData.data;
-
+            
             return users;
 
         } catch (error) {
