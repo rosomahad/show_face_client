@@ -12,14 +12,14 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
-import styles from './channels_page.style';
+import styles from './users_page.style';
 
-import ChannelsList from './ChannelsList';
+
 import { channelsApi } from '../../api';
 
 import Link from '../../components/Link';
 
-class Channel extends React.Component<any, any> {
+class UsersPage extends React.Component<any, any> {
     state = {
         channels: []
     }
@@ -48,7 +48,7 @@ class Channel extends React.Component<any, any> {
 
                     <Paper elevation={2} className={classes.paper}>
                         <div className={classes.paper_header}>
-                            <Typography variant="h5">Channels</Typography>
+                            <Typography variant="h5">Users</Typography>
 
                             <Link to="/channels/create">
                                 <IconButton size="medium" className={classes.link}>
@@ -57,9 +57,7 @@ class Channel extends React.Component<any, any> {
                             </Link>
                         </div>
                         <Divider />
-                        <ChannelsList
-                            channels={this.state.channels}
-                        />
+
                     </Paper>
 
                 </Grid>
@@ -74,4 +72,4 @@ export default compose(
     connect(storeStateToProps, null),
     withStyles(styles),
     withRouter
-)(Channel);
+)(UsersPage);

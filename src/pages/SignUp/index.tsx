@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 
-import useStyles from './signup.style';
+import useStyles from './signup_page.style';
 import { authApi } from '../../api';
 
 import { withRouter, RouteComponentProps } from 'react-router-dom';

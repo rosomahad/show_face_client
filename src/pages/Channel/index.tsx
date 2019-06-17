@@ -12,10 +12,12 @@ import WebrtcConnection from '../../lib/webrtc';
 import { socket } from '../../lib/sockets';
 import socketActions from '../../lib/sockets/socketActions';
 
-import styles from './channel.style';
+import styles from './channel_page.style';
 
 import MessagesList from '../../components/MessagesList';
 import ChatInput from '../../components/ChatInput';
+
+import { messagesApi } from '../../api';
 
 const defaultVideos: string[] = [];
 
@@ -28,9 +30,10 @@ class Channel extends React.Component<any, any> {
         videos: defaultVideos,
         connected: false,
         iceCandidate: null,
+        messages: [],
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const userId = this.props.user.id;
         const channelId = this.props.match.params.channelId;
 
@@ -46,7 +49,23 @@ class Channel extends React.Component<any, any> {
             onClientConnect: this.onClientConnect,
         })
 
+        this.getMessages();
+
         this.Connection.init();
+    }
+
+    getMessages = async () => {
+        try {
+            const channelId = this.props.match.params.channelId;
+
+            const { data } = await messagesApi.findByChannelId(channelId)
+
+            this.setState({
+                messages: data.rows
+            })
+        } catch (error) {
+
+        }
     }
 
     onChannelDisconnected = (client: any) => {
@@ -88,13 +107,28 @@ class Channel extends React.Component<any, any> {
     onClientConnect = (stream: any) => {
 
         if (this.localUserMediaRef.current) {
-            console.log('stream', stream)
+
             this.localUserMediaRef.current.srcObject = stream;
 
         }
 
     };
-    onMessage = () => ''
+    onMessage = async (message: string) => {
+        const channelId = this.props.match.params.channelId;
+
+        const values = {
+            message
+        };
+
+        try {
+            const result = await messagesApi.createByChannelId(channelId, values);
+
+            this.getMessages();
+        } catch (error) {
+            // TODO: 
+        }
+
+    }
     render() {
 
         const classes = this.props.classes;
@@ -159,7 +193,7 @@ class Channel extends React.Component<any, any> {
                         </div>
 
                         <Paper elevation={2} style={{ padding: 20 }}>
-                            <MessagesList messages={[]} />
+                            <MessagesList messages={this.state.messages} />
                             <ChatInput onSubmit={this.onMessage} />
                         </Paper>
 

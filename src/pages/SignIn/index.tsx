@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import useStyles from './signIn.style';
+import useStyles from './signin_page.style';
 import { appActions } from '../../store/actions';
 
 import { authApi } from '../../api';

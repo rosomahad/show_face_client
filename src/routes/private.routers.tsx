@@ -11,7 +11,6 @@ export default class PrivateRoutes extends React.Component {
         return (
             <MainContainer>
                 <Switch>
-                    <Redirect from="/" exact={true} to="/channels/1" />
                     {
                         privateRouters.map(({ path, component, exact }) => (
                             <Route
@@ -23,15 +22,10 @@ export default class PrivateRoutes extends React.Component {
                         ))
                     }
 
-                    <Redirect from="/signin" to="/" />
-                    <Redirect from="/signup" to="/" />
+                    <Redirect from="/signin" exact={true} to="/" />
+                    <Redirect from="/signup" exact={true} to="/" />
 
-                    <Route
-                        component={NotFoundPage}
-                        exact={true}
-                        key={'not_found'}
-                        path={'*'}
-                    />
+
                 </Switch>
             </MainContainer>
         )

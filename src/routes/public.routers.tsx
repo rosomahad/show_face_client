@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { publicRouters } from './routers';
 import PublicHeader from '../components/Main/PublicHeader';
@@ -35,6 +35,11 @@ export default () => {
                         />
                     ))
                 }
+
+                <Redirect
+                    from="*"
+                    to={'/'}
+                />
             </Switch>
             <Footer />
         </Grid>

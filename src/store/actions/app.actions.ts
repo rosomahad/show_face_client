@@ -11,7 +11,7 @@ export default {
                     payload: true
                 });
 
-                const result = await authApi.isAuthorized(); 
+                const result = await authApi.isAuthorized();
                 dispatcher({
                     type: APP_TYPES.SIGN_IN,
                     payload: {
@@ -42,8 +42,19 @@ export default {
     },
 
     logOut: () => {
-        return {
-            type: APP_TYPES.LOGOUT,
-        };
+        return async (dispatcher: any) => {
+            try {
+
+                await authApi.logOut();
+
+                dispatcher({
+                    type: APP_TYPES.LOGOUT,
+                });
+
+            } catch (err) {
+
+                // TODO: 
+            }
+        }
     }
 }

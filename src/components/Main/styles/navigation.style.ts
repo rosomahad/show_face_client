@@ -56,11 +56,25 @@ export default makeStyles(theme => ({
     },
     toolbar: {
         display: 'flex',
+        width: '100%',
+        padding: '0 24px',
+        ...theme.mixins.toolbar,
+    },
+
+    toolbar_right_menu: {
+        flexGrow: 1,
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
-        ...theme.mixins.toolbar,
     },
+
+    toolbar_right_user: {
+        marginRight: '24px',
+        alignItems: 'center',
+        display: 'flex',
+    },
+
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),

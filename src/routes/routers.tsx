@@ -1,16 +1,20 @@
 import UserPage from '../pages/User';
+import UsersPage from '../pages/Users';
+
 import HomePage from '../pages/Home';
 import AccountPage from '../pages/Account';
-import ConferencePage from '../pages/Conference';
-
+import ChatPage from '../pages/Chat';
+import FriendsPage from '../pages/Friends';
 
 import Channel from '../pages/Channel';
 import Channels from '../pages/Channels';
 import ChannelCreate from '../pages/ChannelCreate';
 
 import IntroductionPage from '../pages/Introduction';
+
 import SignUpPage from '../pages/SignUp';
 import SignInPage from '../pages/SignIn';
+import Friends from '../pages/Friends';
 
 
 interface IRoute {
@@ -32,7 +36,13 @@ const privateRouters: IRoute[] = [
     },
 
     {
-        path: '/user/:userId',
+        path: '/users',
+        exact: true,
+        component: UsersPage,
+    },
+
+    {
+        path: '/users/:userId',
         component: UserPage,
     },
 
@@ -54,8 +64,18 @@ const privateRouters: IRoute[] = [
     },
 
     {
-        path: '/conference/:conferenceId',
-        component: ConferencePage,
+        path: '/friends',
+        component: FriendsPage,
+    },
+
+    {
+        path: '/chat',
+        component: ChatPage,
+    },
+
+    {
+        path: '/chat/:chatId',
+        component: ChatPage,
     },
 ]
 

@@ -19,7 +19,7 @@ const App = ({ isAuth, isLoading, authCheck }: any) => {
     return (
         <Router basename={'/'}>
             {
-                isAuth ?
+                true ?
                     <PrivateRouters />
                     :
                     <PublicRouters />

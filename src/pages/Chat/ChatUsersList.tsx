@@ -20,7 +20,7 @@ const stylesForMessage = {
     }
 };
 
-const Message = withStyles(stylesForMessage)(({ msg, classes }: any) => {
+const UserItem = withStyles(stylesForMessage)(({ msg, classes }: any) => {
     const {
         creator,
         createdAt,
@@ -48,9 +48,9 @@ const Message = withStyles(stylesForMessage)(({ msg, classes }: any) => {
 
 const stylesForMessageList = {};
 
-const MessageList = withStyles(stylesForMessage)(({ messages, classes }: any) => (
+const MessageList = withStyles(stylesForMessage)(({ users, classes }: any) => (
     <div className={classes.list} >
-        {messages.map((message: any) => <Message key={message.id} msg={message} />)}
+        {users.map((message: any) => <UserItem key={message.id} msg={message} />)}
     </div>
 ))
 

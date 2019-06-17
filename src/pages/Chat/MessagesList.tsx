@@ -48,7 +48,7 @@ const Message = withStyles(stylesForMessage)(({ msg, classes }: any) => {
 
 const stylesForMessageList = {};
 
-const MessageList = withStyles(stylesForMessage)(({ messages, classes }: any) => (
+const MessageList = withStyles(stylesForMessage)(({ messages = [], classes }: any) => (
     <div className={classes.list} >
         {messages.map((message: any) => <Message key={message.id} msg={message} />)}
     </div>

@@ -35,6 +35,8 @@ const RTCutils = {
     },
 }
 
+const configuration = { iceServers: [{ urls: 'stun: stun.l.google.com:19302' }] };
+
 class Connection {
     constructor({ userId, channelId, onClientConnect, onCandidateConnect }: any) {
         this.userId = userId;
@@ -59,7 +61,7 @@ class Connection {
 
     initCaller = () => {
         //Initializing a peer connection
-        this.caller = new w.RTCPeerConnection();
+        this.caller = new w.RTCPeerConnection(configuration);
         //Listen for ICE Candidates and send them to remote peers
         this.caller.onicecandidate = (evt: any) => {
             if (!evt.candidate) return;
@@ -69,16 +71,15 @@ class Connection {
             });
         };
 
-        //onaddstream handler to receive remote feed and show in remoteview video element
-        // this.caller.ontrack = (evt: any) => {
-        //     console.log("ontrack called", evt);
-        //     this.onCandidateConnect(evt.streams[0])
-        // };
-
-        this.caller.onaddstream = (evt: any) => {
-            console.log("onaddstream     called", evt);
-            this.onCandidateConnect(evt.stream)
+        this.caller.ontrack = (evt: any) => {
+            console.log("ontrack called", evt);
+            this.onCandidateConnect(evt.streams[0])
         };
+
+        // this.caller.onaddstream = (evt: any) => {
+        //     console.log("onaddstream     called", evt);
+        //     this.onCandidateConnect(evt.stream)
+        // };
     }
 
 

@@ -28,6 +28,21 @@ export default {
         }
     },
 
+    logOut: async () => {
+        try {
+            const response = await request({ method: 'post', url: '/v1/auth/logout', })
+
+            const responseData = response.data;
+
+            const users = responseData.data;
+
+            return users;
+
+        } catch (error) {
+
+        }
+    },
+
     signUp: async (credantials: signInCredantials) => {
         try {
             const response = await request({ method: 'post', url: '/v1/auth/sign_up', data: credantials })
