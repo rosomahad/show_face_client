@@ -69,13 +69,13 @@ export default function ButtonAppBar() {
                     >Home</Link>
                 </nav>
 
-                <Link to="signin">
+                <Link to="/signin">
                     <Button color="secondary" variant="outlined" className={classes.link}>
                         Sign In
                     </Button>
                 </Link>
 
-                <Link to="signup">
+                <Link to="/signup">
                     <Button color="secondary" variant="outlined" className={classes.link}>
                         Sign up
                     </Button>

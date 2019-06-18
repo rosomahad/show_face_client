@@ -16,6 +16,20 @@ export default {
         }
     },
 
+    createByChatId: async (chatId: number, values: any) => {
+        try {
+            const response = await request({
+                url: `/v1/chats/${chatId}/messages`,
+                method: 'post',
+                data: values
+            })
+
+            return response;
+        } catch (err) {
+            // TODO:
+        }
+    },
+
     updateOne: (id: number, values: any) => {
 
     },
@@ -32,6 +46,19 @@ export default {
         try {
             const { data } = await request({
                 url: `/v1/channels/${channelId}/messages`,
+                method: 'get'
+            })
+
+            return data;
+        } catch (error) {
+
+        }
+    },
+
+    findByChatId: async (chatId: number) => {
+        try {
+            const { data } = await request({
+                url: `/v1/chats/${chatId}/messages`,
                 method: 'get'
             })
 

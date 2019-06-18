@@ -3,7 +3,7 @@ import UsersPage from '../pages/Users';
 
 import HomePage from '../pages/Home';
 import AccountPage from '../pages/Account';
-import ChatPage from '../pages/Chat';
+import ChatsPage from '../pages/Chats';
 import FriendsPage from '../pages/Friends';
 
 import Channel from '../pages/Channel';
@@ -14,7 +14,6 @@ import IntroductionPage from '../pages/Introduction';
 
 import SignUpPage from '../pages/SignUp';
 import SignInPage from '../pages/SignIn';
-import Friends from '../pages/Friends';
 
 
 interface IRoute {
@@ -69,14 +68,14 @@ const privateRouters: IRoute[] = [
     },
 
     {
-        path: '/chat',
-        component: ChatPage,
+        path: '/chats/:chatId',
+        component: ChatsPage,
+    },
+    {
+        path: '/chats',
+        component: ChatsPage,
     },
 
-    {
-        path: '/chat/:chatId',
-        component: ChatPage,
-    },
 ]
 
 const publicRouters: IRoute[] = [

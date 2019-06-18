@@ -20,13 +20,41 @@ import ChatUsersList from './ChatUsersList';
 
 import Chat from './Chat';
 
+import { chatsApi } from '../../api';
+
+
 class ChatPage extends React.Component<any> {
-    state = { users: [] }
+    state = {
+        chats: [],
+        chatId: undefined,
+    }
 
-    componentDidMount() {
+    async componentDidMount() {
         const chatId = this.props.match.params.chatId;
-        if (chatId) {
 
+        if (chatId) {
+            this.setState(() => ({
+                chatId
+            }))
+        }
+
+        const { data } = await chatsApi.findAllByUserId(this.props.user.id);
+
+        this.setState(() => ({
+            chats: data.rows,
+        }))
+    }
+
+    findAllChats = async () => {
+        try {
+            const { data } = await chatsApi.findAllByUserId(
+                this.props.user.id
+            );
+
+            return data;
+
+        } catch (error) {
+            // TODO: 
         }
     }
 
@@ -37,18 +65,17 @@ class ChatPage extends React.Component<any> {
             <Container maxWidth={false}>
                 <Grid container spacing={4}>
 
-                    <Grid xs={4} item>
+                    <Grid xs={3} item>
                         <Grid container xs={12}>
                             <Paper elevation={2} className={classes.paper}>
 
-                                <div className={classes.paper_header}>
-                                    <Typography variant="h5">Chat</Typography>
-                                </div>
+
+                                <Typography className={classes.paper_header} variant="h5">Chats</Typography>
+
                                 <Divider />
 
-
                                 <ChatUsersList
-                                    users={this.state.users}
+                                    chats={this.state.chats}
                                 />
 
                             </Paper>
@@ -56,12 +83,14 @@ class ChatPage extends React.Component<any> {
                     </Grid>
 
 
-                    <Grid item xs={8}>
-                        <Grid container xs={12}  >
-                            <Chat
-                                chatId={1}
-                            />
-                        </Grid>
+                    <Grid item xs={9}>
+                        {
+                            this.state.chatId && (
+                                <Chat
+                                    chatId={this.state.chatId}
+                                />
+                            )
+                        }
                     </Grid>
 
                 </Grid>

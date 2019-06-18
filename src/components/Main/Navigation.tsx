@@ -45,9 +45,9 @@ const Links = [
     },
 
     {
-        to: '/chat',
+        to: '/chats',
         Icon: ChatIcon,
-        label: 'Chat'
+        label: 'Chats'
     },
 
     {
@@ -92,7 +92,7 @@ function Navigation(props: any) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    
+
                     <Typography variant="h5" noWrap>  Show Face </Typography>
 
                     <div className={classes.toolbar_right_menu}>
