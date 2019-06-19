@@ -3,8 +3,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import CreateButton from '@material-ui/icons/AddCircleOutlineSharp';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
@@ -16,7 +14,7 @@ import styles from './users_page.style';
 
 
 import { usersApi } from '../../api';
-import UsersList from '../../components/UsersList';
+import UsersList from './UsersList';
 
 import Link from '../../components/Link';
 
