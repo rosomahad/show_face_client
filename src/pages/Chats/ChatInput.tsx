@@ -17,21 +17,16 @@ const InputArea = ({ onSubmit }: any) => {
     }
 
     return (
-        <Grid container style={{ marginTop: 10 }}>
+        <Grid style={{ marginTop: '32px', width: '100%' }}>
             <form onSubmit={onMessageSubmit}>
                 <TextField
-                    label="Your Message"
-                    style={{ flexGrow: 1 }}
+                    style={{ flexGrow: 1, width: '100%' }}
                     onChange={onMessageChange}
+                    label="Your Message"
+                    variant='outlined'
+                    fullWidth={true}
                     value={message}
                 />
-
-                <Button
-                    type="submit"
-                    color="primary"
-                    style={{ margin: 12 }}
-
-                >Send</Button>
             </form>
         </Grid>
     )

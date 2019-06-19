@@ -1,14 +1,22 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-
+import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/core/styles';
 import MessagesList from './MessagesList';
 import ChatInput from './ChatInput';
 
 import { messagesApi } from '../../api';
 
+const styles = (theme: any) => ({
+    paper: {
+        width: '100%',
+        padding: '16px'
+    },
 
-export default class Chat extends React.Component<any> {
+});
+
+class Chat extends React.Component<any> {
     state = {
         messages: []
     }
@@ -36,6 +44,7 @@ export default class Chat extends React.Component<any> {
         const chatId = this.props.chatId;
 
         try {
+            if (!message) return;
             const { data } = await messagesApi.createByChatId(chatId, {
                 message,
             });
@@ -48,20 +57,31 @@ export default class Chat extends React.Component<any> {
     }
 
     render() {
+        const classes = this.props.classes;
+
+
         return (
-            <Paper elevation={2} style={{ width: '100%', height: '100%' }}>
-                <Grid container>
-                    <Grid item xs={9}>
-                        <MessagesList messages={this.state.messages} />
-                    </Grid>
-                    <Grid item xs={9}>
+            <Container maxWidth={'md'}>
+                <Paper
+                    className={classes.paper}
+                    elevation={2} >
+                
+                        <Grid container>
 
-                        <ChatInput onSubmit={this.sendMessage} />
-                    </Grid>
-                </Grid>
+                            <MessagesList messages={this.state.messages} />
 
+                        </Grid>
 
-            </Paper>
+                        <Grid container >
+
+                            <ChatInput onSubmit={this.sendMessage} />
+
+                        </Grid>
+ 
+                </Paper>
+            </Container>
         );
     }
 }
+
+export default withStyles(styles)(Chat);
